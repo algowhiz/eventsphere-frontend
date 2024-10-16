@@ -53,7 +53,7 @@ const Signup = () => {
         if (!validate()) return;
 
         setLoading(true);
-        axios.post('http://localhost:5000/api/auth/send-otp-email', { email: form.email })
+        axios.post('https://eventsphere-backend-neu9.onrender.com/api/auth/send-otp-email', { email: form.email })
             .then(response => {
                 setOtpSent(true);
                 setForm(prev => ({ ...prev, step: 2 }));
@@ -69,7 +69,7 @@ const Signup = () => {
 
     const handleVerifyOtp = () => {
         setLoading(true);
-        axios.post('http://localhost:5000/api/auth/verify-otp-email', { email: form.email, otp: form.otp })
+        axios.post('https://eventsphere-backend-neu9.onrender.com/api/auth/verify-otp-email', { email: form.email, otp: form.otp })
             .then(response => {
                 setForm(prev => ({ ...prev, step: 3 }));
             })
@@ -95,7 +95,7 @@ const Signup = () => {
                 formData.append('image', form.image);
             }
 
-            axios.post('http://localhost:5000/api/auth/signup', formData)
+            axios.post('https://eventsphere-backend-neu9.onrender.com/api/auth/signup', formData)
                 .then(response => {
                     setForm({
                         name: '',

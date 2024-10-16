@@ -29,7 +29,7 @@ const PhoneChangeModal = ({ closePhoneModal }) => {
     if (!validateForm()) return;
 
     setLoading(true);
-    axios.put('http://localhost:5000/api/auth/update-phone', { userId: user._id, newPhone })
+    axios.put('https://eventsphere-backend-neu9.onrender.com/api/auth/update-phone', { userId: user._id, newPhone })
       .then(response => {
         if (response) {
           const updatedUser = { ...user, phone: newPhone };

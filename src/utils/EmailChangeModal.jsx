@@ -39,7 +39,7 @@ const EmailChangeModal = ({ closeModal }) => {
     if (!validateEmailForm()) return;
 
     setLoading(true);
-    axios.post('http://localhost:5000/api/auth/send-otp-to-update-email', { email:   user.email  , update_email:emailForm.newEmail})
+    axios.post('https://eventsphere-backend-neu9.onrender.com/api/auth/send-otp-to-update-email', { email:   user.email  , update_email:emailForm.newEmail})
       .then(response => {
         setOtpSent(true);
         setEmailForm(prev => ({ ...prev, step: 2 }));
@@ -56,7 +56,7 @@ const EmailChangeModal = ({ closeModal }) => {
     if (!validateEmailForm()) return;
 
     setLoading(true);
-    axios.post('http://localhost:5000/api/auth/verify-otp-email', { email: user.email, otp: emailForm.otp })
+    axios.post('https://eventsphere-backend-neu9.onrender.com/api/auth/verify-otp-email', { email: user.email, otp: emailForm.otp })
       .then(response => {
         if (response.status === 200) {
           handleUpdateEmail();
@@ -74,7 +74,7 @@ const EmailChangeModal = ({ closeModal }) => {
 
   const handleUpdateEmail = () => {
     setLoading(true);
-    axios.post('http://localhost:5000/api/auth/update-email', { email:user.email , newEmail:emailForm.newEmail })
+    axios.post('https://eventsphere-backend-neu9.onrender.com/api/auth/update-email', { email:user.email , newEmail:emailForm.newEmail })
       .then(response => {
         if (response.status === 200) {
           setEmailForm({ newEmail: '', otp: '', step: 1 });

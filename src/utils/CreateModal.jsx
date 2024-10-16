@@ -113,7 +113,7 @@ const CreateModal = ({ show, onClose }) => {
 
 
       const token = localStorage.getItem('token');
-      const response = await axios.post('http://localhost:5000/api/event/events', formData, {
+      const response = await axios.post('https://eventsphere-backend-neu9.onrender.com/api/event/events', formData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'

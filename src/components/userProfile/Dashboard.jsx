@@ -30,7 +30,7 @@ const Dashboard = () => {
 
       try {
         setImageUpdateLoading(true);
-        const response = await axios.post('http://localhost:5000/api/auth/update-profile-image', formData,);
+        const response = await axios.post('https://eventsphere-backend-neu9.onrender.com/api/auth/update-profile-image', formData,);
 
         const updatedUser = {
           ...user,

@@ -35,7 +35,7 @@ const AccountSettings = ({ openModal, openPhoneModal }) => {
             // Add a check for password strength here if needed
     
             // Make the API request
-            const response = await axios.put('http://localhost:5000/api/auth/update-password', {
+            const response = await axios.put('https://eventsphere-backend-neu9.onrender.com/api/auth/update-password', {
                 currentPassword,
                 newPassword,
                 userId: user._id,

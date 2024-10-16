@@ -13,7 +13,7 @@ const EditModal = ({ handleInputChange, closeModal, formData }) => {
         try {
             // Call the update API
             const response = await axios.put(
-                'http://localhost:5000/api/auth/extra-user-info', formData);
+                'https://eventsphere-backend-neu9.onrender.com/api/auth/extra-user-info', formData);
 
             if (response) {
                 const { user } = response.data;

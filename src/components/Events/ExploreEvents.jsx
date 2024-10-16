@@ -23,7 +23,7 @@ const ExploreEvents = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
 
-    axios.get('http://localhost:5000/api/event/events-fetch')
+    axios.get('https://eventsphere-backend-neu9.onrender.com/api/event/events-fetch')
       .then(response => {
         setEvents(response.data);
         console.log(events);

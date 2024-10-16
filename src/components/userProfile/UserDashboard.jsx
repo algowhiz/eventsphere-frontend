@@ -16,7 +16,7 @@ const UserDashboard = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/auth/user/${organizerId}`);
+        const response = await axios.get(`https://eventsphere-backend-neu9.onrender.com/api/auth/user/${organizerId}`);
         setUser(response.data);
       } catch (error) {
         console.error('Error fetching user data:', error);

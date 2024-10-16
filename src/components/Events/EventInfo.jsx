@@ -30,7 +30,7 @@ const EventInfo = () => {
       try {
         setLoading(true);
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:5000/api/event/${id}`, {
+        const response = await axios.get(`https://eventsphere-backend-neu9.onrender.com/api/event/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -86,7 +86,7 @@ const EventInfo = () => {
   };
   const handelGenerateTicket = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/ticket/generate-ticket', {
+      const response = await axios.post('https://eventsphere-backend-neu9.onrender.com/api/ticket/generate-ticket', {
         eventName: event.eventName,
         eventDate: new Date(event.eventStartDateTime).toISOString(),
         eventLocation: event.venueDetails || 'Online',
@@ -114,7 +114,7 @@ const EventInfo = () => {
     try {
       const userId = localStorage.getItem("user")
       const user = JSON.parse(userId);
-      const response = await axios.get(`http://localhost:5000/api/event/saveEvent/${id}/${user._id}`);
+      const response = await axios.get(`https://eventsphere-backend-neu9.onrender.com/api/event/saveEvent/${id}/${user._id}`);
       dispatch(setEventsHosted(response.data.user));
       
     } catch (error) {
