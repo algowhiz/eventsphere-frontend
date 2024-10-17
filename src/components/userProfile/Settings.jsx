@@ -30,7 +30,7 @@ const Settings = () => {
             <h2 className="text-lg font-semibold">Privacy Settings</h2>
           </div>
         </div>
-        <div className="w-full md:flex-1 bg-white rounded-lg shadow-md p-4">
+        <div className={`w-full md:flex-1 bg-white rounded-lg ${activeSection ? 'shadow-md' : ''} p-4`}>
           {activeSection === 'account' && <AccountSettings openPhoneModal={openPhoneModal} openModal={openModal} />}
           {activeSection === 'privacy' && <PrivacySettings />}
         </div>

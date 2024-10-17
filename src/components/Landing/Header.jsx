@@ -88,8 +88,8 @@ const Header = () => {
           <nav className="flex flex-col items-center">
             {user && user._id ? (
               <>
-                <span className="text-white text-2xl mb-4">{user.name ? `Greetings! ${user.name}` : "Greetings! Sign In"}</span>
-                <Link to='/dashboard' className="text-white text-lg mb-4" onClick={toggleMenu}>Dashboard</Link>
+
+                <Link to='/dashboard/home' className="text-white text-lg mb-4" onClick={toggleMenu}><span className="text-white text-2xl mb-4">{user.name ? `Greetings! ${user.name}` : "Greetings! Sign In"}</span></Link>
                 <p className="text-white text-lg mb-4 flex items-center" onClick={() => { toggleMenu(); handleClick(); }}>
                   <IoAddCircleSharp size={20} className="mr-1" /> Create Event
                 </p>

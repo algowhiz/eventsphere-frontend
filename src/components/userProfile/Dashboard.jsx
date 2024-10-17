@@ -166,7 +166,7 @@ const Dashboard = () => {
               className={`text-black font-semibold py-2 px-4 ${location.pathname === '/dashboard/profile' ? 'text-white bg-[#18a19b]' : 'focus:text-white focus:bg-[#18a19b]'
                 }`}
             >
-              My Orders
+              Profile
             </Link>
             <Link
               to="/dashboard/settings"

@@ -8,6 +8,7 @@ const initialState = {
     isVerified: false,
     createdAt: '',
     eventsHosted: {
+        attendedEvents:0,
         free: 0,
         offline: 0,
         online: 0,
@@ -30,12 +31,15 @@ const userSlice = createSlice({
         clearUser() {
             return initialState;
         },
+        setSavedEvents(state, action) {
+            state.savedEvents = action.payload;
+        },
         setEventsHosted(state, action) {
-            state.eventsHosted = { ...state.eventsHosted, ...action.payload };
+            state.eventsHosted = action.payload;
         },
     },
 });
 
-export const { setUser, clearUser, updateUser, setEventsHosted } = userSlice.actions;
+export const { setUser, clearUser, updateUser, setEventsHosted ,setSavedEvents} = userSlice.actions;
 
 export default userSlice.reducer;

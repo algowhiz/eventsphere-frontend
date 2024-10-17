@@ -10,7 +10,7 @@ import { IoArrowBackSharp } from "react-icons/io5";
 import Spinner from '../../utils/Spinner';
 import GooglePayButton from '@google-pay/button-react';
 import { useDispatch } from 'react-redux';
-import { setEventsHosted } from '../../store/user'; 
+import { setSavedEvents,setEventsHosted } from '../../store/user'; 
 
 const EventInfo = () => {
   const { id } = useParams();
@@ -61,7 +61,6 @@ const EventInfo = () => {
   }
 
   const handlePaymentSubmit = async (paymentData) => {
-    //api to put the payment details
   }
 
   const handleGooglePaySuccess = async (paymentRequest) => {
@@ -73,14 +72,16 @@ const EventInfo = () => {
     };
 
     try {
-      console.log('Payment Successful:', paymentDetails);
+      const userId = localStorage.getItem("user")
+      const user = JSON.parse(userId);
       setPaymentDeatils(paymentDetails)
       await handlePaymentSubmit(paymentData);
-      setAlert({ show: true, message: 'payment successful done !! Ticket booked ! ', type: 'success' });
+      setAlert({ show: true, message: 'payment successful done !! Ticket booked ! ', type: 'success' });     
       handelGenerateTicket();
+      const response = await axios.get(`https://eventsphere-backend-neu9.onrender.com/api/event/saveattendedevents/${id}/${user._id}`);
+      dispatch(setEventsHosted(response?.data?.eventsHosted));
       setStep(2);
-    } catch (error) {
-      console.error('Error processing payment:', error);
+    } catch (error) {      
       setAlert({ show: true, message: 'Payment failed. Please try again.', type: 'error' });
     }
   };
@@ -115,8 +116,8 @@ const EventInfo = () => {
       const userId = localStorage.getItem("user")
       const user = JSON.parse(userId);
       const response = await axios.get(`https://eventsphere-backend-neu9.onrender.com/api/event/saveEvent/${id}/${user._id}`);
-      dispatch(setEventsHosted(response.data.user));
-      
+      console.log(response.data);
+      dispatch(setSavedEvents(response.data.user));  
     } catch (error) {
       console.log(error);
     }
