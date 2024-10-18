@@ -24,7 +24,8 @@ const EventInfo = () => {
   const [bookingLoading, setBookingLoading] = useState(false);
   const [paymentDeatils, setPaymentDeatils] = useState({});
   const [step, setStep] = useState(0);
-
+  const userId = localStorage.getItem("user")
+  const user = JSON.parse(userId);
   useEffect(() => {
     const fetchEvent = async () => {
       try {
@@ -55,9 +56,12 @@ const EventInfo = () => {
     });
   };
 
-  const handleMeetLink = () => {
-    console.log("hi");
-
+  const handleMeetLink = async () => {
+    setAlert({ show: true, message: 'Your Ticket has been booked !!!! ', type: 'success' });     
+    handelGenerateTicket();
+    const response = await axios.get(`https://eventsphere-backend-neu9.onrender.com/api/event/saveattendedevents/${id}/${user._id}`);
+    dispatch(setEventsHosted(response?.data?.eventsHosted));
+    setStep(2);
   }
 
   const handlePaymentSubmit = async (paymentData) => {
@@ -72,8 +76,7 @@ const EventInfo = () => {
     };
 
     try {
-      const userId = localStorage.getItem("user")
-      const user = JSON.parse(userId);
+     
       setPaymentDeatils(paymentDetails)
       await handlePaymentSubmit(paymentData);
       setAlert({ show: true, message: 'payment successful done !! Ticket booked ! ', type: 'success' });     
@@ -228,7 +231,7 @@ const EventInfo = () => {
         </div>
         <div className="lg:w-1/3 bg-gray-100 p-4 rounded-lg shadow-md flex flex-col justify-between">
           <div>
-            <div className="mb-4">
+            <div className="mb-4 text-sm">
               <h2 className="text-xl font-bold">Date & Time</h2>
               <p className='whitespace-nowrap'>Start's at -
                 {new Date(event?.eventStartDateTime).toLocaleString('en-GB', {
