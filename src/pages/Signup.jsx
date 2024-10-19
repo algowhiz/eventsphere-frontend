@@ -124,7 +124,7 @@ const Signup = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-700 via-gray-800 to-gray-900">
+        <div className="min-h-screen p-10 md:p-5  flex items-center justify-center bg-gradient-to-r from-gray-700 via-gray-800 to-gray-900">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Signup</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
