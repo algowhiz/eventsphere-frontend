@@ -101,7 +101,7 @@ const Header = () => {
                 <Link to="/signup" className="text-white text-lg mb-4" onClick={toggleMenu}>Signup</Link>
               </>
             )}
-            <Link to="/eventpage" className="text-white text-lg m-3" onClick={toggleMenu}>Event Page</Link>
+            <Link to="/eventpage" className="text-white text-lg m-3" onClick={toggleMenu}>Explore Event</Link>
           </nav>
         </div>
       )}
