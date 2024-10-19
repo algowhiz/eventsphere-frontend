@@ -9,15 +9,16 @@ import Spinner from '../../utils/Spinner';
 import AlertModal from '../../utils/AlertModal';
 import { Link, useNavigate } from 'react-router-dom';
 import { clearUser } from '../../store/user'; 
-import {  useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-const ExploreEvents = () => {
+const ExploreEvents = ({ searchValue, triggerSearch ,setTriggerSearch}) => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const { selectedFilter, filteredEvents, setSelectedFilter } = useEventFilter(events);
-  const naviagte = useNavigate();
+  const { selectedFilter, filteredEvents, setSelectedFilter, setFilteredEvents } = useEventFilter(events);
+  const [searchFilteredEvents, setSearchFilteredEvents] = useState([]);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,11 +27,11 @@ const ExploreEvents = () => {
     axios.get('https://eventsphere-backend-neu9.onrender.com/api/event/events-fetch')
       .then(response => {
         setEvents(response.data);
-        console.log(events);
+        setFilteredEvents(response.data); // Initially set all events
         setLoading(false);
       })
       .catch(error => {
-        setErrorMessage('Your token Id has Been Expire Login again');
+        setErrorMessage('Your token has expired. Please log in again.');
         setShowError(true);
         setLoading(false);
         localStorage.removeItem('user');
@@ -38,13 +39,32 @@ const ExploreEvents = () => {
         sessionStorage.removeItem('user');
         sessionStorage.removeItem('token');
         dispatch(clearUser());
-        naviagte('/login');
+        navigate('/login');
       });
   }, []);
 
   const handleErrorClose = () => {
     setShowError(false);
   };
+
+  useEffect(() => {
+    if (triggerSearch) {
+      if (searchValue.byLocation || searchValue.byEventName) {
+        const filtered = events.filter(event => {
+          const matchLocation = event?.venueDetails?.toLowerCase().includes(searchValue.byLocation.toLowerCase());
+          const matchEventName = event?.eventName?.toLowerCase().includes(searchValue.byEventName.toLowerCase());
+          return matchLocation || matchEventName;
+        });
+        setFilteredEvents(filtered);
+      } else {
+        setSearchFilteredEvents(events); 
+      }
+    }
+    if(searchValue.byLocation == "" && searchValue.byEventName == ""){
+      setFilteredEvents(events);
+    }
+    setTriggerSearch(false);
+  }, [triggerSearch, searchValue, setFilteredEvents]);
 
   return (
     <div>
@@ -70,9 +90,9 @@ const ExploreEvents = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {loading ? (
           <Spinner />
-        ) : filteredEvents.length > 0 ? (
-          filteredEvents.map((event, idx) => (
-            <Link key={event._id} to={`/event/${event._id}`}>
+        ) : filteredEvents?.length > 0 ? (
+          filteredEvents.map((event) => (
+            <Link key={event?._id} to={`/event/${event?._id}`}>
               <div className="bg-white p-4 lg:p-6 rounded-lg shadow-xl cursor-pointer">
                 <div
                   className="relative bg-cover bg-center rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300"
@@ -83,29 +103,29 @@ const ExploreEvents = () => {
                     <div className="flex justify-between items-center">
                       <div className="bg-[#22B0AF] rounded-full flex flex-col justify-center items-center w-12 h-12">
                         <p className="text-white font-bold text-lg">
-                          {new Date(event.eventStartDateTime).toLocaleDateString('en-GB', { day: 'numeric' })}
+                          {new Date(event?.eventStartDateTime).toLocaleDateString('en-GB', { day: 'numeric' })}
                         </p>
                         <p className="text-white text-sm font-bold">
-                          {new Date(event.eventStartDateTime).toLocaleDateString('en-GB', { month: 'short' })}
+                          {new Date(event?.eventStartDateTime).toLocaleDateString('en-GB', { month: 'short' })}
                         </p>
                       </div>
                       <div className="text-white flex items-center">
-                        {event.meetingType === 'online' ? (
+                        {event?.meetingType === 'online' ? (
                           <div className="flex items-center gap-1">
                             <RiVideoOnLine size={24} />
                             <span>Online</span>
                           </div>
                         ) : (
                           <div className="flex items-center gap-1">
-                            <span>{event.venueDetails ? event.venueDetails.split(' ').slice(0, 2).join(' ') : <MdOutlineNotListedLocation size={24} />}</span>
+                            <span>{event?.venueDetails ? event?.venueDetails.split(' ').slice(0, 2).join(' ') : <MdOutlineNotListedLocation size={24} />}</span>
                           </div>
                         )}
                       </div>
                     </div>
                   </div>
                 </div>
-                <h2 className="text-xl font-bold text-black mt-4 hover:text-[#22B0AF]">{event.eventName}</h2>
-                <p className="mt-2 font-bold text-black">{event.isFree ? 'Free' : `$${event.amount}`}</p>
+                <h2 className="text-xl font-bold text-black mt-4 hover:text-[#22B0AF]">{event?.eventName}</h2>
+                <p className="mt-2 font-bold text-black">{event?.isFree ? 'Free' : `$${event?.amount}`}</p>
                 <p className="mt-2 text-xs font-bold text-black">{new Date(event?.eventStartDateTime).toLocaleString()}</p>
               </div>
             </Link>

@@ -97,6 +97,7 @@ const useEventFilter = (events) => {
     selectedFilter,
     filteredEvents,
     setSelectedFilter,
+    setFilteredEvents
   };
 };
 
